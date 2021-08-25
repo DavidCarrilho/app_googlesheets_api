@@ -2,6 +2,7 @@ import 'package:app_api_gsheets/api/user_sheets_api.dart';
 import 'package:app_api_gsheets/main.dart';
 import 'package:app_api_gsheets/model/user.dart';
 import 'package:app_api_gsheets/widget/button_widget.dart';
+import 'package:app_api_gsheets/widget/user_form_widget.dart';
 import 'package:flutter/material.dart';
 
 class CreateSheetsPage extends StatelessWidget {
@@ -14,18 +15,16 @@ class CreateSheetsPage extends StatelessWidget {
         body: Container(
           alignment: Alignment.center,
           padding: EdgeInsets.all(32),
-          child: ButtonWidget(
-            text: 'Save',
-            onClicked: () async {
-              insertUser();
-              // final user =
-              User(
-                id: 2,
-                name: 'Laura',
-                email: 'laura@email.com',
-                isBeginner: true,
-              );
-              // await UserSheetsApi.insert([user.toJson()]);
+          child: UserFormWidget(
+            onSavedUser: (user) async {
+              // insertUser();
+              // final user = User(
+              //   id: 2,
+              //   name: 'Laura',
+              //   email: 'laura@email.com',
+              //   isBeginner: true,
+              // );
+              await UserSheetsApi.insert([user.toJson()]);
             },
           ),
         ),
