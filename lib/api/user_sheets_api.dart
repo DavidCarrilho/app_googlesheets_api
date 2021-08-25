@@ -1,3 +1,4 @@
+import 'package:app_api_gsheets/model/user.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:gsheets/gsheets.dart';
 
@@ -21,8 +22,15 @@ class UserSheetsApi {
   static Worksheet? _userSheet;
 
   static Future init() async {
-    final spreadsheet = await _gsheets.spreadsheet(_spreadsheetId);
-    _userSheet = await _getWorkSheet(spreadsheet, title: 'Users');
+    try {
+      final spreadsheet = await _gsheets.spreadsheet(_spreadsheetId);
+      _userSheet = await _getWorkSheet(spreadsheet, title: 'Users');
+
+      final firstRow = UserFields.getFields();
+      _userSheet!.values.insertRow(1, firstRow);
+    } catch (e) {
+      debugPrint('init Error: $e');
+    }
   }
 
   static Future<Worksheet> _getWorkSheet(
@@ -34,5 +42,11 @@ class UserSheetsApi {
     } catch (e) {
       return spreadsheet.worksheetByTitle(title)!;
     }
+  }
+
+  static Future insert(List<Map<String, dynamic>> rowList) async {
+    if (_userSheet == null) return;
+    
+    _userSheet!.values.map.appendRows(rowList);
   }
 }
