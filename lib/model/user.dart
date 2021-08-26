@@ -19,10 +19,24 @@ class User {
     required this.isBeginner,
   });
 
+  
+
   Map<String, dynamic> toJson() => {
     UserFields.id: id,
     UserFields.name: name,
     UserFields.email: email,
     UserFields.isBeginner: isBeginner,
   };
+
+  User copyWith({
+    int? id,
+    String? name,
+    String? email,
+    bool? isBeginner,
+  }) => User(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      email: email ?? this.email,
+      isBeginner: isBeginner ?? this.isBeginner,
+    );
 }
